@@ -10,6 +10,9 @@
 - name: install Python 2
   win_chocolatey: name=python2
 
+- name: install make
+  win_chocolatey: name=make
+
 - block:
   - name: install Git
     win_chocolatey:
