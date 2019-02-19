@@ -1,19 +1,29 @@
 ---
 
 #
-# bootstrap packages required for ansible to work
+# Windows bootstrap
 #
 
-  - name: run os-specific bootstrap
-    include: "{{ bootstrap_include }}"
-    loop_control:
-      loop_var: bootstrap_include
-    with_first_found:
-      - files:
-        - "{{ role_path }}/tasks/partials/{{ os }}.yml"
-        - "{{ role_path }}/tasks/partials/{{ os|stripversion }}.yml"
-        skip: true
+- name: create TEMP directory
+  win_file: path='C:\TEMP' state=directory
 
-  - name: run raspberry pi bootstrap
-    when: "inventory_hostname|regex_search('-arm(v6l|v7l|64)_pi')"
-    include: "{{ role_path }}/tasks/partials/raspberry-pi.yml"
+- block:
+  - name: set automatic logon user name
+    win_regedit:
+      path: "{{ autologon_regpath }}"
+      name: DefaultUsername
+      data: "{{ ansible_ssh_user }}"
+      type: string
+  - name: set automatic logon password
+    win_regedit:
+      path: "{{ autologon_regpath }}"
+      name: DefaultPassword
+      data: "{{ ansible_ssh_pass }}"
+      type: string
+  - name: enable automatic logon
+    win_regedit:
+      path: "{{ autologon_regpath }}"
+      name: AutoAdminLogon
+      data: 1
+      type: string
+
