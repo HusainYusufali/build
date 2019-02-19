@@ -4,26 +4,46 @@
 # Install Visual Studio
 #
 
-- when: vs == 2013
-  block:
-  # TODO: Ensure no other versions are installed
-  - name: install Visual Studio 2013
-    include_tasks: "partials/vs2013.yml"
+#- when: vs == 2013
+#  block:
+#  # TODO: Ensure no other versions are installed
+#  - name: install Visual Studio 2013
+#    include_tasks: "partials/vs2013.yml"
+#
+#- when: vs == 2015
+#  block:
+#  # TODO: Ensure no other versions are installed
+#  - name: install Visual Studio 2015
+#    include_tasks: "partials/vs2015.yml"
+#
+#- when: vs == 'vcbt2015'
+#  block:
+#  # TODO: Ensure no other versions are installed
+#  - name: install Visual C++ Build Tools 2015
+#    include_tasks: "partials/vcbt2015.yml"
+#
+#- when: vs == 2017
+#  block:
+#  # TODO: Ensure no other versions are installed
+#  - name: install Visual Studio 2017
+#    include_tasks: "partials/vs2017.yml"
 
-- when: vs == 2015
-  block:
-  # TODO: Ensure no other versions are installed
-  - name: install Visual Studio 2015
-    include_tasks: "partials/vs2015.yml"
 
-- when: vs == 'vcbt2015'
-  block:
-  # TODO: Ensure no other versions are installed
-  - name: install Visual C++ Build Tools 2015
-    include_tasks: "partials/vcbt2015.yml"
+#
+# Install Visual Studio 2015
+#
 
-- when: vs == 2017
-  block:
-  # TODO: Ensure no other versions are installed
-  - name: install Visual Studio 2017
-    include_tasks: "partials/vs2017.yml"
+- name: download Visual Studio Community 2015
+  win_get_url:
+    url: 'https://go.microsoft.com/fwlink/?LinkId=532606'
+    dest: 'C:\TEMP\vs2015_community.exe'
+    force: no
+
+- name: install Visual Studio Community 2015
+  win_command: 'C:\TEMP\vs2015_community.exe /Silent /NoRestart
+                /InstallSelectableItems NativeLanguageSupport_Group
+                /Log C:\TEMP\vs2015_install_log.txt'
+
+- name: install WiX Toolset
+  import_tasks: 'wixtoolset.yml'
+
