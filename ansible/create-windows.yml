@@ -12,7 +12,7 @@
     - package-upgrade
     - visual-studio
     - baselayout-windows
-    - jenkins-worker-windows
+#    - jenkins-worker-windows
 
 #  pre_tasks:
 #    - name: check if secret is properly set
