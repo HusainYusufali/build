@@ -61,8 +61,7 @@
     force: no
 
 - name: install .NET Framework
-  win_command: 'C:\TEMP\netfw.exe /q /norestart
-                /log C:\TEMP\netfw_install_log.txt'
+  win_command: 'C:\TEMP\netfw.exe /q /norestart /log C:\TEMP\netfw_install_log.txt'
 
 - name: download Visual C++ Build Tools 2015
   win_get_url:
@@ -71,8 +70,10 @@
     force: no
 
 - name: install Visual C++ Build Tools 2015
-  win_command: 'C:\TEMP\vcbt2015.exe /Silent /NoRestart /Full
-                /Log C:\TEMP\vsbt2015_install_log.txt'
+  win_shell: 'C:\TEMP\vcbt2015.exe /Silent /NoRestart /Full /Log C:\TEMP\vsbt2015_install_log.txt'
+  args:
+    executable: cmd
+  tags: skip
 
 - name: install WiX Toolset
   import_tasks: 'wixtoolset.yml'
@@ -90,12 +91,12 @@
     dest: 'C:\TEMP\vs2013_community.exe'
 
 - name: install Visual Studio Community 2013
-  win_command: 'C:\TEMP\vs2013_community.exe /Silent /NoRestart
-                /Log C:\TEMP\vs2013_install_log.txt'
+  win_shell: 'C:\TEMP\vs2013_community.exe /Silent /NoRestart /Log C:\TEMP\vs2013_install_log.txt'
+  args:
+    executable: cmd
 
 - name: install WiX Toolset
   import_tasks: 'wixtoolset.yml'
-
 
 
 #
